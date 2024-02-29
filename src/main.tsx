@@ -8,6 +8,7 @@ import ErrorPage from './error-page';
 import Context from './components/Context'
 import LoginAuth from './login-auth';
 import App from './App';
+import './style.css';
 
 const router = createBrowserRouter([
   {

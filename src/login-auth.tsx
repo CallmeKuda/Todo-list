@@ -3,6 +3,7 @@ import {  useNavigate } from 'react-router-dom'
 import { useGlobalContext } from './components/Context'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from './components/firebaseConfig';
+import './login.css';
 
 
 export default function LoginAuth() {
@@ -16,13 +17,13 @@ export default function LoginAuth() {
     
     const handleSignUp = (e: React.FormEvent<HTMLButtonElement> ) => {
         e.preventDefault()
-        // sign up
+
         createUserWithEmailAndPassword(auth, email, password)
          .then(() => {
           setHelperText('Congrats!, you can now Sign In')
           setTimeout(() => setHelperText(''), 2000)
           setSignUp(!signUp)
-          // const userId = auth.currentUser?.uid
+      
          }) 
        .catch((error) => {
         const errorCode = error.code;
@@ -33,11 +34,11 @@ export default function LoginAuth() {
 
     const handleSignIn = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        // sign in
+
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
         const user = userCredential.user;
-        setUserId(user.uid) //this way, it is only a string and not string | undefined as before
+        setUserId(user.uid) 
         navigate('/my-todo')
          })
       .catch((error) => {
@@ -61,7 +62,7 @@ export default function LoginAuth() {
             <label
             htmlFor='eMailField'
             className='font-bold'>
-                eMail
+                Email
             </label>
 
             <input 
@@ -70,7 +71,7 @@ export default function LoginAuth() {
             value={email} 
             className='mt-1 rounded-lg h-8 w-full list'
             onChange={(e) => setEmail(e.target.value)}
-            placeholder='johndoe@example.com'/>
+            placeholder='email@email.com'/>
 
            </div>
            <div className='mt-4 w-72'>
@@ -86,7 +87,7 @@ export default function LoginAuth() {
             id='passwordField'
             value={password} 
             className='mt-1 outline-none rounded-lg w-full h-8 list'
-            placeholder='******'
+            placeholder='*********'
             onChange={(e) => setPassword(e.target.value)}/>
            </div>
            

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react" //import useEffect
-import { collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc, query, where, getDocs } from "firebase/firestore"; // import onSnapshot from firestore
+import { useState, useEffect } from "react" 
+import { collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc, query, where, getDocs } from "firebase/firestore";
 import { useGlobalContext } from "./components/Context";
 import { db } from "./components/firebaseConfig";
 
@@ -7,7 +7,7 @@ type Task = {
   title: string,
   completed: boolean,
   id:string,  
-}[];       //define the task type
+}[];    
 
 export default function App() {
 
@@ -19,11 +19,10 @@ export default function App() {
 
   useEffect(() => {
     if(userId !== '') {
-       // onSnapshot so I can get data update real-time
        const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
               const tasks = querySnapshot.docs.map((doc) => {
               const data = doc.data();
-               return {  //return data compatible with data types specified in the tasks variable 
+               return { 
                  title: data.title,
                  completed: data.completed,
                  id: doc.id,
@@ -64,17 +63,17 @@ export default function App() {
    }
 
  const handleFilter = async (val: boolean): Promise<void> => {
-    const q = query(docRef, where("completed", "==", val)) //get collection with respect to if completed is true or not
+    const q = query(docRef, where("completed", "==", val)) 
     const querySnapshot = await getDocs(q)
      const tasks = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        return {  //return data compatible with data types specified in the tasks variable 
+        return { 
             title: data.title,
             completed: data.completed,
             id: doc.id,
               }
            }); 
-    // const tasks = mapQuerySnapshotToTasks(querySnapshot) //fetch the document in the collection
+    
      setTasks(tasks);
           }
 
@@ -82,19 +81,19 @@ export default function App() {
         const querySnapshot = await getDocs(docRef);
         const tasks = querySnapshot.docs.map((doc) => {
           const data = doc.data();
-          return {  //return data compatible with data types specified in the tasks variable 
+          return {
               title: data.title,
               completed: data.completed,
               id: doc.id,
                 }
              }); 
-        // const tasks = mapQuerySnapshotToTasks(querySnapshot)
+
             setTasks(tasks); 
           }
 
    const handleClearCompleted = async (): Promise<void> => {
-     const q = await getDocs(query(docRef, where("completed", "==", true))); //get the document so we can loop through
-       q.forEach( async (doc) => { //loop through
+     const q = await getDocs(query(docRef, where("completed", "==", true))); 
+       q.forEach( async (doc) => { 
           await deleteDoc(doc.ref);
           })
       }
@@ -128,7 +127,7 @@ export default function App() {
       <div style={{
         marginTop: '10px'}}>
         {   
-          tasks.length > 0 && ( //since tasks may be undefined 
+          tasks.length > 0 && ( 
              tasks.map(task => {
              const { id, title, completed } = task;
              return (               
@@ -184,5 +183,6 @@ export default function App() {
     </div>
      </div>
   )
+  
 }
 
